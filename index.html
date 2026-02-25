@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>ENCAPASO SAC | Ingeniería y Seguridad</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- FONT AWESOME (para el icono de WhatsApp) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+/* ===== ESTILOS BASE ===== */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f7fb;
+}
+
+nav {
+    position: fixed;
+    width: 100%;
+    background: #0b1d2a;
+    padding: 15px;
+    text-align: center;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+nav a {
+    color: white;
+    margin: 0 25px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+}
+
+nav a:hover {
+    color: #00bfff;
+}
+
+header {
+    height: 100vh;
+    background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)),
+                url("https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 55px;
+    margin: 0;
+    animation: fadeDown 1s;
+}
+
+header p {
+    font-size: 22px;
+    margin-top: 15px;
+    animation: fadeUp 1.5s;
+}
+
+section {
+    padding: 100px 10%;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 50px;
+    color: #0b1d2a;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: .4s;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.03);
+}
+
+.mision {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.box {
+    background: white;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.contact {
+    background: #0b1d2a;
+    color: white;
+    padding: 60px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+footer {
+    background: #06131d;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+/* BOTÓN WHATSAPP CON ICONO DE FONT AWESOME */
+.whatsapp {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #25d366;
+    color: white;
+    width: 60px;               /* ancho fijo */
+    height: 60px;              /* alto fijo */
+    border-radius: 50%;        /* círculo perfecto */
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+    z-index: 1000;
+    display: flex;             /* para centrar el icono */
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;           /* tamaño del icono */
+    transition: .3s;
+}
+
+.whatsapp:hover {
+    background: #20b859;       /* un poco más oscuro al pasar el mouse */
+    transform: scale(1.1);
+}
+
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-40px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== MEDIA QUERIES ===== */
+@media (max-width: 768px) {
+    nav {
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    nav a {
+        margin: 5px 12px;
+        font-size: 16px;
+    }
+
+    header h1 {
+        font-size: 42px;
+    }
+    header p {
+        font-size: 18px;
+        padding: 0 20px;
+    }
+
+    section {
+        padding: 70px 6%;
+    }
+
+    .mision {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .contact {
+        padding: 40px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 10px 8px;
+        text-align: center;
+    }
+    nav a {
+        margin: 0;
+        display: block;
+        font-size: 18px;
+        padding: 6px 0;
+        background: rgba(255,255,255,0.05);
+        border-radius: 6px;
+    }
+
+    header h1 {
+        font-size: 32px;
+    }
+    header p {
+        font-size: 16px;
+        padding: 0 15px;
+    }
+
+    section {
+        padding: 50px 5%;
+    }
+
+    h2 {
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .box {
+        padding: 25px;
+    }
+
+    .contact {
+        padding: 30px 15px;
+        font-size: 16px;
+    }
+
+    .whatsapp {
+        bottom: 15px;
+        right: 15px;
+        width: 50px;
+        height: 50px;
+        font-size: 28px;
+    }
+
+    footer {
+        font-size: 14px;
+        padding: 20px;
+    }
+}
+</style>
+</head>
+<body>
+    <nav>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#mision">Misión</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
+
+    <header>
+        <h1>ENCAPASO SAC</h1>
+        <p>Soluciones de Ingeniería, Automatización y Seguridad</p>
+    </header>
+
+    <section id="nosotros">
+        <h2>Quiénes Somos</h2>
+        <p style="text-align:center; max-width:900px; margin:auto; font-size:18px">
+            Somos una empresa especializada en soluciones integrales de ingeniería, enfocada en estructuras metálicas, automatización de accesos y sistemas de seguridad electrónica. Nuestro compromiso es brindar calidad, eficiencia y tecnología en cada proyecto.
+        </p>
+    </section>
+
+    <section id="servicios">
+        <h2>Servicios Profesionales</h2>
+        <div class="cards">
+            <div class="card"><h3>Estructuras Metálicas</h3><p>Fabricación e instalación profesional para proyectos industriales, comerciales y residenciales.</p></div>
+            <div class="card"><h3>Automatización</h3><p>Sistemas automáticos para puertas, rejas y accesos inteligentes.</p></div>
+            <div class="card"><h3>Cámaras de Seguridad</h3><p>Instalación, configuración y monitoreo remoto de videovigilancia.</p></div>
+            <div class="card"><h3>Mantenimiento</h3><p>Soporte técnico preventivo y correctivo para sistemas eléctricos y mecánicos.</p></div>
+            <div class="card"><h3>Proyectos de Ingeniería</h3><p>Diseño y ejecución de soluciones técnicas personalizadas.</p></div>
+            <div class="card"><h3>Seguridad Integral</h3><p>Protección tecnológica para hogares, negocios e industrias.</p></div>
+        </div>
+    </section>
+
+    <section id="mision">
+        <h2>Misión y Visión</h2>
+        <div class="mision">
+            <div class="box"><h3>Misión</h3><p>Ofrecer soluciones tecnológicas confiables que superen las expectativas del cliente y contribuyan al desarrollo de infraestructura segura y moderna.</p></div>
+            <div class="box"><h3>Visión</h3><p>Ser líderes en innovación tecnológica e ingeniería aplicada, reconocidos por nuestra calidad y excelencia.</p></div>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <h2>Contacto</h2>
+        <div class="contact">
+            <p><b>Ubicación:</b> Lima, Perú</p>
+            <p><b>Teléfono:</b> 973 375 140</p>
+            <p><b>Email:</b> ventas@encapaso.com</p>
+        </div>
+    </section>
+
+    <!-- Botón de WhatsApp con ícono correcto -->
+    <a class="whatsapp" href="https://wa.me/51973375140" target="_blank" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <footer>
+        ENCAPASO SAC © 2026 — Ingeniería y Seguridad
+    </footer>
+</body>
+</html>
