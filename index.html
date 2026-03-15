@@ -243,7 +243,7 @@ margin:auto;
 .contact-form textarea{
 width:100%;
 padding:12px;
-margin-bottom:12px;
+margin-bottom:5px; /* Reducido para dar espacio al mensaje de error */
 border-radius:6px;
 border:1px solid #ccc;
 font-size:15px;
@@ -260,6 +260,17 @@ display:flex;
 gap:10px;
 }
 
+/* Estilos para mensajes de error */
+.error-msg{
+color:#d32f2f;
+font-size:13px;
+margin-top:-5px;
+margin-bottom:10px;
+padding-left:5px;
+text-align:left;
+min-height:18px;
+}
+
 .contact-form button{
 width:100%;
 background:#0077cc;
@@ -269,10 +280,48 @@ padding:14px;
 border-radius:6px;
 font-size:16px;
 cursor:pointer;
+transition:background 0.3s;
+margin-top:5px;
 }
 
 .contact-form button:hover{
 background:#005fa3;
+}
+
+.contact-form button:disabled{
+background:#99c2ff;
+cursor:not-allowed;
+}
+
+/* TOAST DE NOTIFICACIÓN */
+.toast-notification{
+position:fixed;
+top:30px;
+left:50%;
+transform:translateX(-50%);
+background:#28a745;
+color:white;
+padding:15px 25px;
+border-radius:50px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+font-weight:600;
+z-index:2000;
+opacity:0;
+visibility:hidden;
+transition:opacity 0.3s, visibility 0.3s;
+font-size:16px;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.toast-notification.show{
+opacity:1;
+visibility:visible;
+}
+
+.toast-notification i{
+font-size:22px;
 }
 
 /* FOOTER */
@@ -394,6 +443,12 @@ opacity:1;
 height:200px;
 }
 
+.toast-notification{
+width:90%;
+text-align:center;
+border-radius:8px;
+}
+
 }
 
 </style>
@@ -403,6 +458,12 @@ height:200px;
 <body>
 
 <div class="overlay" onclick="closeMenu()"></div>
+
+<!-- TOAST DE NOTIFICACIÓN (ÉXITO) -->
+<div class="toast-notification" id="toastSuccess">
+<i class="fas fa-check-circle"></i>
+<span>¡Su solicitud fue enviada con éxito!</span>
+</div>
 
 <nav>
 
@@ -419,7 +480,7 @@ height:200px;
 <div class="menu">
 
 <a href="#servicios" onclick="closeMenu()">Servicios</a>
-<a href="#proyectos" onclick="closeMenu()">Proyectos Realizados</a>   <!-- NUEVO ENLACE -->
+<a href="#proyectos" onclick="closeMenu()">Proyectos Realizados</a>
 <a href="#mision" onclick="closeMenu()">Misión</a>
 <a href="#contacto" onclick="closeMenu()">Contacto</a>
 
@@ -478,7 +539,6 @@ height:200px;
 
 </section>
 
-<!-- SECCIÓN PROYECTOS (ahora con id y antes de Misión) -->
 <section id="proyectos">
 
 <h2>Proyectos Realizados</h2>
@@ -547,21 +607,33 @@ ventas@hisoltec.com</p>
 
 <div class="contact-form">
 
-<form action="https://formspree.io/f/xpqyjqoe" method="POST">
+<!-- Agregamos novalidate para desactivar validación nativa del navegador -->
+<form id="contactForm" autocomplete="off" novalidate>
 
-<input type="text" name="nombre" placeholder="Nombre" required>
-<input type="email" name="correo" placeholder="Correo" required>
-<input type="tel" name="celular" placeholder="Celular" required>
-<input type="text" name="empresa" placeholder="Empresa">
+<!-- Campo Nombre (requerido) -->
+<input type="text" id="nombre" name="nombre" placeholder="Nombre *">
+<div class="error-msg" id="error-nombre"></div>
+
+<!-- Campo Correo (requerido) - type="email" ayuda en móviles pero sin validación nativa gracias a novalidate -->
+<input type="email" id="correo" name="correo" placeholder="Correo *">
+<div class="error-msg" id="error-correo"></div>
+
+<!-- Campo Celular (requerido) -->
+<input type="tel" id="celular" name="celular" placeholder="Celular *">
+<div class="error-msg" id="error-celular"></div>
+
+<!-- Campo Empresa (opcional) -->
+<input type="text" id="empresa" name="empresa" placeholder="Empresa (opcional)">
 
 <div class="form-row">
-<input type="text" name="rubro" placeholder="Rubro empresarial">
-<input type="text" name="ruc" placeholder="RUC">
+<!-- Rubro (opcional) -->
+<input type="text" id="rubro" name="rubro" placeholder="Rubro empresarial (opcional)">
+<!-- RUC (opcional) -->
+<input type="text" id="ruc" name="ruc" placeholder="RUC (opcional)">
 </div>
 
-<label>Servicio</label>
-
-<select name="servicio" required>
+<label>Servicio *</label>
+<select id="servicio" name="servicio">
 <option value="">Seleccione un servicio</option>
 <option>Estructuras Metálicas</option>
 <option>Automatización de accesos</option>
@@ -569,10 +641,12 @@ ventas@hisoltec.com</p>
 <option>Mantenimiento técnico</option>
 <option>Proyecto de ingeniería</option>
 </select>
+<div class="error-msg" id="error-servicio"></div>
 
-<textarea name="mensaje" placeholder="Mensaje"></textarea>
+<!-- Mensaje (opcional) -->
+<textarea id="mensaje" name="mensaje" placeholder="Mensaje (opcional)"></textarea>
 
-<button type="submit">Enviar solicitud</button>
+<button type="submit" id="submitBtn">Enviar solicitud</button>
 
 </form>
 
@@ -594,18 +668,15 @@ Copyright © 2026 HISOLTEC SAC
 
 <script>
 
-/* MENU */
-
-const menu=document.querySelector(".menu")
-const overlay=document.querySelector(".overlay")
-const icon=document.getElementById("icon")
-const hamburger=document.querySelector(".hamburger")
+/* MENU HAMBURGUESA */
+const menu = document.querySelector(".menu")
+const overlay = document.querySelector(".overlay")
+const icon = document.getElementById("icon")
+const hamburger = document.querySelector(".hamburger")
 
 function toggleMenu(){
-
 menu.classList.toggle("show")
 overlay.classList.toggle("show")
-
 if(menu.classList.contains("show")){
 icon.classList.replace("fa-bars","fa-times")
 hamburger.style.color="white"
@@ -613,36 +684,132 @@ hamburger.style.color="white"
 icon.classList.replace("fa-times","fa-bars")
 hamburger.style.color="#333"
 }
-
 }
 
 function closeMenu(){
-
 menu.classList.remove("show")
 overlay.classList.remove("show")
 icon.classList.replace("fa-times","fa-bars")
 hamburger.style.color="#333"
-
 }
 
 /* CAROUSEL */
-
-let slides=document.querySelectorAll(".carousel img")
-let index=0
-
+let slides = document.querySelectorAll(".carousel img")
+let index = 0
 setInterval(()=>{
-
 slides[index].classList.remove("active")
-
 index++
+if(index >= slides.length) index = 0
+slides[index].classList.add("active")
+}, 3000)
 
-if(index>=slides.length){
-index=0
+/* VALIDACIÓN Y ENVÍO DEL FORMULARIO */
+const contactForm = document.getElementById('contactForm')
+const submitBtn = document.getElementById('submitBtn')
+const toast = document.getElementById('toastSuccess')
+
+// Función para mostrar error en un campo específico
+function setError(fieldId, message) {
+const errorDiv = document.getElementById(`error-${fieldId}`)
+if (errorDiv) errorDiv.textContent = message
 }
 
-slides[index].classList.add("active")
+// Función para limpiar todos los errores
+function clearErrors() {
+document.querySelectorAll('.error-msg').forEach(el => el.textContent = '')
+}
 
-},3000)
+// Validación de email (formato más completo)
+function isValidEmail(email) {
+const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/  // formato básico: algo@dominio.extension
+return re.test(email)
+}
+
+// Validación de celular Perú: 9 dígitos, empieza con 9
+function isValidPhone(phone) {
+const re = /^9\d{8}$/
+return re.test(phone)
+}
+
+contactForm.addEventListener('submit', async function(e) {
+e.preventDefault()
+clearErrors()  // Limpiar errores anteriores
+
+// Obtener valores
+const nombre = document.getElementById('nombre').value.trim()
+const correo = document.getElementById('correo').value.trim()
+const celular = document.getElementById('celular').value.trim()
+const servicio = document.getElementById('servicio').value
+
+let hasErrors = false
+
+// Validar nombre
+if (!nombre) {
+setError('nombre', 'Por favor ingresa tu nombre.')
+hasErrors = true
+}
+
+// Validar correo
+if (!correo) {
+setError('correo', 'El correo electrónico es obligatorio.')
+hasErrors = true
+} else if (!isValidEmail(correo)) {
+setError('correo', 'Ingresa un correo válido, por ejemplo: nombre@empresa.com')
+hasErrors = true
+}
+
+// Validar celular
+if (!celular) {
+setError('celular', 'El número de celular es obligatorio.')
+hasErrors = true
+} else if (!isValidPhone(celular)) {
+setError('celular', 'El celular debe tener 9 dígitos y comenzar con 9 (ej: 987654321).')
+hasErrors = true
+}
+
+// Validar servicio
+if (!servicio) {
+setError('servicio', 'Por favor selecciona un servicio.')
+hasErrors = true
+}
+
+// Si hay errores, detener
+if (hasErrors) return
+
+// Deshabilitar botón y cambiar texto
+submitBtn.disabled = true
+submitBtn.textContent = 'Enviando...'
+
+// Preparar datos para enviar (solo los campos existentes, incluyendo opcionales)
+const formData = new FormData(contactForm)
+
+try {
+const response = await fetch('https://formspree.io/f/xpqyjqoe', {
+method: 'POST',
+body: formData,
+headers: { 'Accept': 'application/json' }
+})
+
+if (response.ok) {
+// Limpiar formulario
+contactForm.reset()
+// Mostrar toast
+toast.classList.add('show')
+// Ocultar toast después de 3 segundos
+setTimeout(() => {
+toast.classList.remove('show')
+}, 3000)
+} else {
+alert('Hubo un problema al enviar el mensaje. Por favor, intenta nuevamente.')
+}
+} catch (error) {
+alert('Error de conexión. Verifica tu internet e intenta de nuevo.')
+} finally {
+// Rehabilitar botón
+submitBtn.disabled = false
+submitBtn.textContent = 'Enviar solicitud'
+}
+})
 
 </script>
 
