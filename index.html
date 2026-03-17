@@ -170,9 +170,26 @@ align-items:center;
 text-align:center;
 padding:20px;
 opacity:0;
+box-sizing:border-box; /* Asegura que el padding no desborde */
 transition:0.35s;
 }
 
+.overlay-servicio h3,
+.overlay-servicio p {
+margin:0; /* Elimina márgenes por defecto */
+width:100%; /* Ocupa todo el ancho disponible */
+}
+
+.overlay-servicio h3 {
+font-size:1.3rem;
+margin-bottom:5px;
+}
+
+.overlay-servicio p {
+font-size:0.95rem;
+line-height:1.4;
+}
+  
 .servicio:hover .overlay-servicio{
 opacity:1;
 }
