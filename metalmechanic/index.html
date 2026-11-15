@@ -899,8 +899,8 @@
             <a href="#proyectos">Proyectos</a>
             <a href="/academy/">Academia</a>
             <a href="#blog">Blog</a>
-            <a href="#footer-col">Contacto</a>
-            <a href="#footer-col" class="btn-cotizar">COTIZAR AHORA</a>
+            <a href="#contacto">Contacto</a>
+            <a href="#formulario" class="btn-cotizar">COTIZAR AHORA</a>
         </div>
         <div class="hamburger" onclick="openMobileMenu()">
             <i class="fas fa-bars"></i>
@@ -932,9 +932,9 @@
             <a href="#proyectos" class="mobile-simple-link" onclick="closeMobileMenu()">Proyectos</a>
             <a href="/academy/" class="mobile-simple-link" onclick="closeMobileMenu()">Academia</a>
             <a href="#blog" class="mobile-simple-link" onclick="closeMobileMenu()">Blog</a>
-            <a href="#footer-col" class="mobile-simple-link" onclick="closeMobileMenu()">Contacto</a>
+            <a href="#contacto" class="mobile-simple-link" onclick="closeMobileMenu()">Contacto</a>
         </div>
-        <a href="#footer-col" class="btn-cotizar" onclick="closeMobileMenu()">COTIZAR AHORA</a>
+        <a href="#formulario" class="btn-cotizar" onclick="closeMobileMenu()">COTIZAR AHORA</a>
     </div>
 
     <!-- HERO METALMECÁNICA -->
@@ -1074,7 +1074,7 @@
         <h2 class="section-title">Proyectos <span style="color: var(--industrial-orange);">Destacados</span></h2>
         <p class="section-subtitle">Casos de éxito e implementaciones de gran envergadura</p>
         
-        <div class="proyectos-grid">
+        <div class="proyectos-grid" id="proyectos">
             <div class="proyecto-card">
                 <div class="proyecto-img" style="background-image: url('/estructura_nave.png'); background-color: #ccc;"></div>
                 <div class="proyecto-info">
@@ -1114,7 +1114,7 @@
         <h2 class="section-title">¿Por qué elegir <span style="color: var(--industrial-orange);">Hisoltec</span>?</h2>
         <p class="section-subtitle">Ingeniería, experiencia y materiales certificados de primer nivel</p>
         
-        <div class="why-grid">
+        <div class="why-grid" id="nosotros">
             <div class="why-card">
                 <i class="fas fa-gears"></i>
                 <h4>Ingeniería Especializada</h4>
@@ -1179,14 +1179,14 @@
                     <li><a href="#contacto">Contacto</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
+            <div class="footer-col" id="contacto">
                 <h4>Contacto</h4>
                 <p><i class="fas fa-map-marker-alt" style="color:var(--industrial-orange); margin-right:5px;"></i> Calle José Boterin 583, La Perla, Callao, Perú</p>
                 <p><i class="fas fa-phone" style="color:var(--industrial-orange); margin-right:5px;"></i> 947 150 198</p>
                 <p><i class="fas fa-envelope" style="color:var(--industrial-orange); margin-right:5px;"></i> ventas@hisoltec.com</p>
                 <p><i class="fas fa-clock" style="color:var(--industrial-orange); margin-right:5px;"></i> Lun - Vie: 8:00 - 18:00</p>
             </div>
-            <div class="footer-col">
+            <div class="footer-col" id="formulario">
                 <h4>Escríbenos</h4>
                 <form id="contactForm" class="footer-form" novalidate>
                     <input type="text" id="nombre" name="nombre" placeholder="Nombre *">
